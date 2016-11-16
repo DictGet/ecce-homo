@@ -1,6 +1,7 @@
 from PIL import Image
 from resizeimage import resizeimage
-from settings import DEFAULT_METHOD
+
+from .settings import DEFAULT_METHOD
 
 
 def create_image(filename, new_filename, **kwargs):
