@@ -24,7 +24,7 @@ def get_image(filename, **kwargs):
         return send_from_directory(MEDIA_ROOT, resized_filename)
 
     if create_image(absolute_path, resized_absolute_path, **kwargs):
-        return send_from_directory(MEDIA_ROOT, resized_absolute_path)
+        return send_from_directory(MEDIA_ROOT, resized_filename)
     abort(500)
 
 
