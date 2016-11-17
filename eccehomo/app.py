@@ -4,27 +4,27 @@ from flask import Flask, abort, request, send_from_directory, jsonify
 from webargs.flaskparser import use_kwargs
 
 from .fields import image_args, correct_arguments
-from .settings import MEDIA_DIRECTORY_ROOT
+from .settings import MEDIA_ROOT, MEDIA_URL
 from .utils import create_image, get_new_filename
 
 app = Flask(__name__)
 
 
-@app.route("/<path:filename>", strict_slashes=False)
+@app.route(os.path.join('/', MEDIA_URL, "<path:filename>"))
 @use_kwargs(image_args, validate=correct_arguments)
 def get_image(filename, **kwargs):
-    absolute_path = MEDIA_DIRECTORY_ROOT + filename
+    absolute_path = os.path.join(MEDIA_ROOT, filename)
     if not os.path.isfile(absolute_path):
         abort(404)
 
     resized_filename = get_new_filename(request)
-    resized_absolute_path = MEDIA_DIRECTORY_ROOT + resized_filename
+    resized_absolute_path = os.path.join(MEDIA_ROOT, resized_filename)
 
     if os.path.isfile(resized_absolute_path):
-        return send_from_directory(MEDIA_DIRECTORY_ROOT, resized_filename)
+        return send_from_directory(MEDIA_ROOT, resized_filename)
 
     if create_image(absolute_path, resized_absolute_path, **kwargs):
-        return send_from_directory(MEDIA_DIRECTORY_ROOT, resized_filename)
+        return send_from_directory(MEDIA_ROOT, resized_absolute_path)
     abort(500)
 
 

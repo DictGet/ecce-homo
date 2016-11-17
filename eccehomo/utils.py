@@ -1,7 +1,7 @@
 from PIL import Image
 from resizeimage import resizeimage
 
-from .settings import DEFAULT_METHOD
+from .settings import DEFAULT_METHOD, MEDIA_URL
 
 
 def create_image(filename, new_filename, **kwargs):
@@ -37,6 +37,8 @@ def get_new_filename(request):
     """There's no built-in to give path and parameters all together so
     do it manually."""
 
+    if MEDIA_URL:
+        return request.url.split(MEDIA_URL + '/')[1]
     # Remove url root
     path = request.url.split(request.url_root)[1]
     if '/?' not in path:
