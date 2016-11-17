@@ -1,6 +1,6 @@
 import os
 
-MEDIA_DIRECTORY_ROOT = '/home/mikethomas/ecce-homo/media/'
+MEDIA_DIRECTORY_ROOT = ''
 
 DEFAULT_METHOD = os.environ.get('ECCEHOMO_DEFAULT_METHOD', 'contain')
 
