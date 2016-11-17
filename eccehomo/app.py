@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, abort, request, send_from_directory
+from flask import Flask, abort, request, send_from_directory, jsonify
 from webargs.flaskparser import use_kwargs
 
 from .fields import image_args
@@ -26,6 +27,18 @@ def get_image(filename, **kwargs):
     if create_image(absolute_path, resized_absolute_path, **kwargs):
         return send_from_directory(MEDIA_DIRECTORY_ROOT, resized_filename)
     abort(500)
+
+
+@app.errorhandler(422)
+def handle_unprocessable_entity(err):
+    exception = getattr(err, 'exc')
+    if exception:
+        messages = err.exc.messages
+    else:
+        messages = ['Invalid request']
+    return jsonify({
+        'messages': messages,
+    }), 422
 
 
 if __name__ == "__main__":
