@@ -1,10 +1,9 @@
 import os
 
-from flask import Flask, abort, request, send_from_directory
 from flask import Flask, abort, request, send_from_directory, jsonify
 from webargs.flaskparser import use_kwargs
 
-from .fields import image_args
+from .fields import image_args, correct_arguments
 from .settings import MEDIA_DIRECTORY_ROOT
 from .utils import create_image, get_new_filename
 
@@ -12,7 +11,7 @@ app = Flask(__name__)
 
 
 @app.route("/<path:filename>", strict_slashes=False)
-@use_kwargs(image_args)
+@use_kwargs(image_args, validate=correct_arguments)
 def get_image(filename, **kwargs):
     absolute_path = MEDIA_DIRECTORY_ROOT + filename
     if not os.path.isfile(absolute_path):

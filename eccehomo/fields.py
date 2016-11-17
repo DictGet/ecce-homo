@@ -1,8 +1,34 @@
 from webargs import fields
-from .settings import RESIZE_METHODS
+from webargs.core import ValidationError
+
+from . import settings
+
+
+def type_allowed(val):
+    if val == settings.DEFAULT_METHOD:
+        raise ValidationError(
+            'Default type cannot be explicity chosen. Omit t parameter.',
+            status_code=422)
+    if val not in settings.RESIZE_METHODS:
+        raise ValidationError(
+            'Resize type parameter not recognized',
+            status_code=422)
+
+
+def correct_arguments(args):
+    if not args.get('w') and not args.get('h'):
+        raise ValidationError(
+            'Must provide at least one length parameter,w or h.',
+            status_code=422)
+    if args.get('t'):
+        if not args.get('w') or not args.get('h'):
+            raise ValidationError(
+                'Must provide both w and h for this method.',
+                status_code=422)
+
 
 image_args = {
-    'w': fields.Int(validate=lambda val: val > 1),
-    'h': fields.Int(validate=lambda val: val > 1),
-    't': fields.Str(validate=lambda val: val in RESIZE_METHODS)
+    'w': fields.Int(validate=lambda val: val > settings.MINIMUM_LENGTH),
+    'h': fields.Int(validate=lambda val: val > settings.MINIMUM_LENGTH),
+    't': fields.Str(validate=type_allowed)
 }
