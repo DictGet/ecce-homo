@@ -1,8 +1,8 @@
 import os
 
-MEDIA_ROOT = os.path.join('/', os.environ.get('ECCEHOMO_MEDIA_ROOT'))
+MEDIA_ROOT = os.path.join('/', os.environ.get('ECCEHOMO_MEDIA_ROOT', ''))
 
-MEDIA_URL = os.environ.get('ECCEHOMO_MEDIA_URL')
+MEDIA_URL = os.environ.get('ECCEHOMO_MEDIA_URL', '')
 
 DEFAULT_METHOD = os.environ.get('ECCEHOMO_DEFAULT_METHOD', 'contain')
 
