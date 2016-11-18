@@ -17,7 +17,7 @@ def get_image(filename, **kwargs):
     if not os.path.isfile(absolute_path):
         abort(404)
 
-    resized_filename = get_new_filename(request)
+    resized_filename = get_new_filename(filename, request)
     resized_absolute_path = os.path.join(MEDIA_ROOT, resized_filename)
 
     if os.path.isfile(resized_absolute_path):

@@ -1,7 +1,9 @@
+from urlparse import urlparse
+
 from PIL import Image
 from resizeimage import resizeimage
 
-from .settings import DEFAULT_METHOD, MEDIA_URL
+from .settings import DEFAULT_METHOD
 
 
 def create_image(filename, new_filename, **kwargs):
@@ -33,18 +35,8 @@ def resize_image(filename, new_filename, method, size):
     return True
 
 
-def get_new_filename(request):
+def get_new_filename(filename, request):
     """There's no built-in to give path and parameters all together so
     do it manually."""
-
-    if MEDIA_URL:
-        return request.url.split(MEDIA_URL + '/')[1]
-    # Remove url root
-    path = request.url.split(request.url_root)[1]
-    if '/?' not in path:
-        return path
-
-    # Remove trailing '/' between path and parameters
-    split_path = path.split('/?')
-    clean_path = split_path[0] + '?' + split_path[1]
-    return clean_path
+    query = urlparse(request.url).query
+    return "{}?{}".format(filename, query)
