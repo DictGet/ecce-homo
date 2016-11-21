@@ -4,12 +4,15 @@ from webargs.core import ValidationError
 from . import settings
 
 
+RESIZE_METHODS = ['contain', 'crop', 'cover', 'thumbnail']
+
+
 def type_allowed(val):
     if val == settings.DEFAULT_METHOD:
         raise ValidationError(
             'Default type cannot be explicity chosen. Omit t parameter.',
             status_code=422)
-    if val not in settings.RESIZE_METHODS:
+    if val not in RESIZE_METHODS:
         raise ValidationError(
             'Resize type parameter not recognized',
             status_code=422)
