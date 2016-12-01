@@ -49,12 +49,8 @@ def get_image(filename, **kwargs):
 def custom_400_handler(error):
     """Handles response of 400 bad rquest errors to add a message to the
     response."""
-    if getattr(error, 'description'):
-        messages = error.description
-    else:
-        messages = ['Invalid request']
     return jsonify({
-        'messages': messages,
+        'messages': getattr(error, 'description', 'Invalid Request'),
     }), 400
 
 
@@ -63,12 +59,8 @@ def custom_422_handler(error):
     """ Handles repsonse of 422 unprocessable_entity errors as thrown by
     webargs library for invalid parameters."""
     exception = getattr(error, 'exc')
-    if exception:
-        messages = error.exc.messages
-    else:
-        messages = ['Invalid request']
     return jsonify({
-        'messages': messages,
+        'messages': exception.messages if exception else "Invalid Request"
     }), 422
 
 
