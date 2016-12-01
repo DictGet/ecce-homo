@@ -14,13 +14,23 @@ app = Flask(__name__)
 @app.route(os.path.join('/', MEDIA_URL, "<path:filename>"))
 @use_kwargs(image_args, validate=correct_arguments)
 def get_image(filename, **kwargs):
+    """Endpoint for getting image. URL is
+    e.g. /MEDIA_URL/path/to/image.jpg
+    for an image at MEDIA_ROOT/path/to/image.jpg
+    plus query params e.g. ?w=100&h=100&t=cover
+    If base image exists, check if params image exists and if not create
+    the image and return it."""
+
+    # Check if base image exists
     absolute_path = os.path.join(MEDIA_ROOT, filename)
     if not os.path.isfile(absolute_path):
         abort(404)
 
+    # Get new filename based on request url
     resized_filename = get_new_filename(filename, request)
     resized_absolute_path = os.path.join(MEDIA_ROOT, resized_filename)
 
+    # Check if image exists already
     if os.path.isfile(resized_absolute_path):
         return send_from_directory(MEDIA_ROOT, resized_filename)
 
