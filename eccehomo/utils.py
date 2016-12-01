@@ -7,10 +7,11 @@ from .settings import DEFAULT_METHOD
 
 
 def create_image(filename, new_filename, **kwargs):
-    return resize_image(get_resize_arguments(filename, new_filename, **kwargs))
+    method, size = get_resize_arguments(**kwargs)
+    resize_image(filename, new_filename, method, size)
 
 
-def get_resize_arguments(filename, new_filename, **kwargs):
+def get_resize_arguments(**kwargs):
     width = kwargs.get('w')
     height = kwargs.get('h')
     method = kwargs.get('t')
