@@ -1,15 +1,29 @@
 import unittest
+import shutil
+import os
+
+from PIL import Image
 
 from eccehomo.app import app
 
 
 class TestApp(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        cls.temp_dir_path = os.environ.get('ECCEHOMO_MEDIA_ROOT')
+        cls.filename = os.path.join(cls.temp_dir_path, 'test_image.jpg')
+        image = Image.new('RGBA', size=(500, 500), color=(155, 0, 0))
+        image.save(cls.filename, 'jpeg')
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.temp_dir_path)
+
     def setUp(self):
         self.app = app.test_client()
         # propagate the exceptions to the test client
         self.app.testing = True
-        self.app.debug = True
 
     def test_width_image(self):
         result = self.app.get('/media/test_image.jpg?w=100')
