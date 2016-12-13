@@ -1,5 +1,6 @@
 # ecce-homo
 A simple micro application to serve images with customized cropping
+![True ecce homo](http://ep00.epimg.net/cultura/imagenes/2012/08/23/actualidad/1345709139_149007_1345712998_noticia_normal.jpg)
 
 ## Introduction
 This micro application resizes existing images according to given query parameters.
@@ -43,3 +44,5 @@ Resize cover:
 Files are saved with url path as filename.
 If trailing slash present in url will be removed for filename
 `{domain}/{media_url}/path/to/file.jpg/?w=100` -> `{media_directory}/path/to/file.jpg?w=100`
+
+
