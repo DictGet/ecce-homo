@@ -14,12 +14,14 @@ app = Flask(__name__)
 @app.route(os.path.join('/', MEDIA_URL, "<path:filename>"))
 @use_kwargs(image_args, validate=correct_arguments)
 def get_image(filename, **kwargs):
-    """Endpoint for getting image. URL is
-    e.g. /MEDIA_URL/path/to/image.jpg
+    """Endpoint for getting image.
+
+    URL is e.g. /MEDIA_URL/path/to/image.jpg
     for an image at MEDIA_ROOT/path/to/image.jpg
     plus query params e.g. ?w=100&h=100&t=cover
     If base image exists, check if params image exists and if not create
-    the image and return it."""
+    the image and return it.
+    """
 
     # Check if base image exists
     absolute_path = os.path.join(MEDIA_ROOT, filename)
@@ -47,8 +49,7 @@ def get_image(filename, **kwargs):
 
 @app.errorhandler(400)
 def custom_400_handler(error):
-    """Handles response of 400 bad rquest errors to add a message to the
-    response."""
+    """Handle bad requests adding a message to the response."""
     return jsonify({
         'messages': getattr(error, 'description', 'Invalid Request'),
     }), 400
@@ -56,8 +57,10 @@ def custom_400_handler(error):
 
 @app.errorhandler(422)
 def custom_422_handler(error):
-    """ Handles repsonse of 422 unprocessable_entity errors as thrown by
-    webargs library for invalid parameters."""
+    """Handle unprocessable_entity requests adding an error to the response.
+
+    Errors as thrown by  webargs library for invalid parameters.
+    """
     exception = getattr(error, 'exc')
     return jsonify({
         'messages': exception.messages if exception else "Invalid Request"
