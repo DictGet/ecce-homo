@@ -1,12 +1,6 @@
-import six
-
-if six.PY2:
-    from urlparse import urlparse
-else:
-    from urllib.parse import urlparse
-
 from PIL import Image
 
+from six.moves.urllib.parse import urlparse
 from resizeimage import resizeimage
 
 from .settings import DEFAULT_METHOD
