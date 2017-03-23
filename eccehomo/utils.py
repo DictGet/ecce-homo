@@ -1,4 +1,10 @@
-from urllib.parse import urlparse
+import six
+
+if six.PY2:
+    from urlparse import urlparse
+else:
+    from urllib.parse import urlparse
+
 from PIL import Image
 
 from resizeimage import resizeimage

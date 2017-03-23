@@ -1,4 +1,4 @@
-import os
+import os.path
 
 from flask import Flask, abort, request, send_from_directory, jsonify
 from webargs.flaskparser import use_kwargs
