@@ -22,7 +22,7 @@ Set to `contain` if left unset. Defines a default method to use when height `h` 
 e.g. `export ECCEHOMO_DEFAULT_METHOD='crop'`
 #### ECCEHOMO_MINIMUM_LENGTH
 Sets a minimum accepted length for the width `w` and height `h` parameters.
-e.g. `export ECCEHOMO_MINIMUM_LEGNTH=10`
+e.g. `export ECCEHOMO_MINIMUM_LENGTH=10`
 ## Usage
 There are three query parameters. Height `h`, Width, `w`, and method type `t`.  Method defintions in [python-resize-image readme]('https://github.com/charlesthk/python-resize-image')
 
