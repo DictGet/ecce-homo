@@ -1,14 +1,9 @@
-from urlparse import urlparse
-
 from PIL import Image
+
+from six.moves.urllib.parse import urlparse
 from resizeimage import resizeimage
 
 from .settings import DEFAULT_METHOD
-
-
-def create_image(filename, new_filename, **kwargs):
-    method, size = get_resize_arguments(**kwargs)
-    resize_image(filename, new_filename, method, size)
 
 
 def get_resize_arguments(**kwargs):
@@ -28,12 +23,21 @@ def get_resize_arguments(**kwargs):
     return method, size
 
 
+def create_image(filename, new_filename, **kwargs):
+    method, size = get_resize_arguments(**kwargs)
+    resize_image(filename, new_filename, method, size)
+
+
 def resize_image(filename, new_filename, method, size):
-    """
-    Opens file 'filename'. Resized with 'method' to 'size'
-    and saves as 'new_filename'.
-    Bad file or filename raises IOError
-    Wrong image size raises ImageSizeError
+    """Resize an image according to a method and size and store it
+
+    :param filename: file to resize
+    :param new_filename: Name of the resized file
+    :param method: resize method to use
+    :param size:
+
+    :raise IOError: Bad file or filename
+    :raise ImageSizeError: Wrong image size
     """
     with open(filename, 'r+b') as f:
         with Image.open(f) as image:
@@ -44,5 +48,4 @@ def resize_image(filename, new_filename, method, size):
 def get_new_filename(filename, request):
     """There's no built-in to give path and parameters all together so
     do it manually."""
-    query = urlparse(request.url).query
-    return "{}?{}".format(filename, query)
+    return "{}?{}".format(filename, urlparse(request.url).query)

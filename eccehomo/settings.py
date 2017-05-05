@@ -1,4 +1,5 @@
 import os
+import os.path
 
 MEDIA_ROOT = os.path.join('/', os.environ.get('ECCEHOMO_MEDIA_ROOT', ''))
 

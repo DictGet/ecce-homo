@@ -1,4 +1,5 @@
 Flask==0.11.1
 Pillow==3.4.2
-python-resize-image==1.1.10
+python-resize-image==1.1.11
 webargs==1.4.0
+six
